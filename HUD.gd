@@ -15,6 +15,7 @@ var count3 = 0.0
 var spring_switch = true
 export(PackedScene) var knive_scene
 export(PackedScene) var dude_scene
+export(PackedScene) var star_scene
 
 
 func _on_Purchase_pressed():
@@ -72,11 +73,12 @@ func _ready():
 	$SpringSwitch.start()
 
 func _on_SpawnTimer_timeout():
-	var dude = dude_scene.instance()
-	var dude_spawn_location = get_node("DudePath/DudePathLocation")
-	dude_spawn_location.offset = randi()
-	dude.position = dude_spawn_location.position
-	add_child(dude)
+	if play:
+		var dude = dude_scene.instance()
+		var dude_spawn_location = get_node("DudePath/DudePathLocation")
+		dude_spawn_location.offset = randi()
+		dude.position = dude_spawn_location.position
+		add_child(dude)
 
 func _on_PauseScreen_spin():
 	spin = true
@@ -97,8 +99,28 @@ func _on_Spring_bounce():
 	if play:
 		emit_signal("bounce")
 
+func _on_KillButton_pressed():
+	get_tree().call_group("entities", "queue_free")
+	sprinkle()
+	#$KillSound.play()
+	$KillEffect.show()
+	$KillEffect.play()
+	play = false
+	$KillTimer.start()
 
+func _on_KillTimer_timeout():
+	play = true
+	$KillEffect.hide()
 
+func sprinkle():
+	var star = star_scene.instance()
+	var star_spawn_location = get_node("StarPath/StarPathLocation")
+	for i in 4:
+		star_spawn_location.offset = randi()
+		star.position = star_spawn_location.position
+		add_child(star)
+		i += 1
+	
 """
 signal start_game
 
@@ -136,10 +158,4 @@ func _ready():
 	pass # Replace with function body.
 
 """
-
-
-
-
-
-
 

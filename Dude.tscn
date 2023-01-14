@@ -19,7 +19,7 @@ animations = [ {
 radius = 36.0
 height = 38.0
 
-[node name="Dude" type="RigidBody2D"]
+[node name="Dude" type="RigidBody2D" groups=["entities"]]
 physics_material_override = SubResource( 3 )
 gravity_scale = 2.0
 script = ExtResource( 3 )
@@ -27,7 +27,6 @@ script = ExtResource( 3 )
 [node name="AnimatedSprite" type="AnimatedSprite" parent="."]
 frames = SubResource( 1 )
 animation = "walk"
-frame = 1
 playing = true
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]

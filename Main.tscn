@@ -38,6 +38,9 @@ stream = ExtResource( 8 )
 [node name="Purchase" type="AudioStreamPlayer" parent="."]
 stream = ExtResource( 9 )
 
+[node name="MiceChange" type="Timer" parent="."]
+wait_time = 0.08
+
 [connection signal="loaded" from="." to="HUD" method="_on_Main_loaded"]
 [connection signal="saving" from="." to="HUD" method="_on_Main_saving"]
 [connection signal="bounce" from="HUD" to="." method="_on_HUD_bounce"]
@@ -52,3 +55,4 @@ stream = ExtResource( 9 )
 [connection signal="spin" from="PauseScreen" to="." method="_on_PauseScreen_spin"]
 [connection signal="spin" from="PauseScreen" to="HUD" method="_on_PauseScreen_spin"]
 [connection signal="volume" from="PauseScreen" to="." method="_on_PauseScreen_volume"]
+[connection signal="timeout" from="MiceChange" to="." method="_on_MiceChange_timeout"]

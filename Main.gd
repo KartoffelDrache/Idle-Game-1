@@ -3,11 +3,19 @@ extends Node
 #func _ready():
 #func _process(delta):
 var file_data
+var cursor_val = 1
 signal saving
 signal loaded
+var arrow1 = load("res://SMILEYSNICKER1.png")
+var arrow2 = load("res://SMILEYSNICKER2.png")
+var arrow3 = load("res://SMILEYSNICKER3.png")
+var arrow4 = load("res://SMILEYSNICKER4.png")
+var pointer = load("res://SMILEYSNICKER5.png")
 
 func _ready():
 	$Music.play()
+	$MiceChange.start()
+	Input.set_custom_mouse_cursor(pointer, Input.CURSOR_POINTING_HAND)
 
 
 func _on_HUD_paused():
@@ -70,6 +78,25 @@ func _on_PauseScreen_spin():
 func _on_HUD_bounce():
 	$BounceSound.play()
 
-
 func _on_HUD_purchase():
 	$Purchase.play()
+
+func _on_MiceChange_timeout():
+	Input.set_default_cursor_shape(Input.CURSOR_ARROW)
+	if cursor_val == 1:
+		Input.set_custom_mouse_cursor(arrow1)
+		cursor_val = 2
+	elif cursor_val == 2:
+		Input.set_custom_mouse_cursor(arrow2)
+		cursor_val = 3
+	elif cursor_val == 3:
+		Input.set_custom_mouse_cursor(arrow3)
+		cursor_val = 4
+	elif cursor_val == 4:
+		Input.set_custom_mouse_cursor(arrow4)
+		cursor_val = 1
+
+func _process(delta):
+	if Input.is_action_pressed("click"):
+		Input.set_default_cursor_shape(Input.CURSOR_POINTING_HAND)
+		Input.set_custom_mouse_cursor(pointer, Input.CURSOR_POINTING_HAND)

@@ -1,10 +1,16 @@
-[gd_scene load_steps=8 format=2]
+[gd_scene load_steps=16 format=2]
 
 [ext_resource path="res://HUD.gd" type="Script" id=1]
 [ext_resource path="res://Knife.tscn" type="PackedScene" id=2]
 [ext_resource path="res://Dude.tscn" type="PackedScene" id=3]
 [ext_resource path="res://Spring.tscn" type="PackedScene" id=4]
 [ext_resource path="res://Blocky.tscn" type="PackedScene" id=5]
+[ext_resource path="res://KILL_1.png" type="Texture" id=6]
+[ext_resource path="res://KILL_2.png" type="Texture" id=7]
+[ext_resource path="res://KILL_3.png" type="Texture" id=8]
+[ext_resource path="res://earthboundeffect.wav" type="AudioStream" id=9]
+[ext_resource path="res://earthbound.webm" type="VideoStream" id=10]
+[ext_resource path="res://Star.tscn" type="PackedScene" id=11]
 
 [sub_resource type="Curve2D" id=1]
 _data = {
@@ -16,10 +22,24 @@ _data = {
 "points": PoolVector2Array( 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1024, 0 )
 }
 
+[sub_resource type="AnimatedTexture" id=3]
+flags = 4
+frames = 2
+fps = 20.0
+frame_0/texture = ExtResource( 6 )
+frame_1/texture = ExtResource( 7 )
+frame_1/delay_sec = 0.0
+
+[sub_resource type="Curve2D" id=4]
+_data = {
+"points": PoolVector2Array( 0, 0, 0, 0, 256, 40, 0, 0, 0, 0, 208, 64, 0, 0, 0, 0, 152, 64, 0, 0, 0, 0, 88, 64, 0, 0, 0, 0, 48, 56, 0, 0, 0, 0, 24, 40, 0, 0, 0, 0, 256, 40 )
+}
+
 [node name="HUD" type="CanvasLayer"]
 script = ExtResource( 1 )
 knive_scene = ExtResource( 2 )
 dude_scene = ExtResource( 3 )
+star_scene = ExtResource( 11 )
 
 [node name="Background" type="ColorRect" parent="."]
 margin_left = -44.0
@@ -91,9 +111,6 @@ margin_right = -45.0
 margin_bottom = 59.0
 text = "Pause"
 
-[node name="Knife" parent="." instance=ExtResource( 2 )]
-visible = false
-
 [node name="KnifePath" type="Path2D" parent="."]
 position = Vector2( 48, 0 )
 curve = SubResource( 1 )
@@ -125,9 +142,43 @@ position = Vector2( -752, 576 )
 [node name="Blocky2" parent="." instance=ExtResource( 5 )]
 position = Vector2( 1792, 568 )
 
+[node name="KillButton" type="TextureButton" parent="."]
+margin_left = 16.0
+margin_top = 16.0
+margin_right = 272.0
+margin_bottom = 80.0
+texture_normal = ExtResource( 8 )
+texture_pressed = ExtResource( 8 )
+texture_hover = SubResource( 3 )
+
+[node name="KillSound" type="AudioStreamPlayer" parent="."]
+stream = ExtResource( 9 )
+
+[node name="KillTimer" type="Timer" parent="."]
+wait_time = 3.203
+
+[node name="KillEffect" type="VideoPlayer" parent="."]
+visible = false
+margin_top = -16.0
+margin_right = 1029.0
+margin_bottom = 632.0
+stream = ExtResource( 10 )
+
+[node name="Star" parent="." instance=ExtResource( 11 )]
+position = Vector2( 336, 56 )
+
+[node name="StarPath" type="Path2D" parent="."]
+curve = SubResource( 4 )
+
+[node name="StarPathLocation" type="PathFollow2D" parent="StarPath"]
+position = Vector2( 256, 40 )
+rotation = 2.67795
+
 [connection signal="visibility_changed" from="." to="." method="_on_HUD_visibility_changed"]
 [connection signal="pressed" from="Purchase" to="." method="_on_Purchase_pressed"]
 [connection signal="pressed" from="Pause" to="." method="_on_Pause_pressed"]
 [connection signal="timeout" from="SpawnTimer" to="." method="_on_SpawnTimer_timeout"]
 [connection signal="bounce" from="Spring" to="." method="_on_Spring_bounce"]
 [connection signal="timeout" from="SpringSwitch" to="." method="_on_SpringSwitch_timeout"]
+[connection signal="pressed" from="KillButton" to="." method="_on_KillButton_pressed"]
+[connection signal="timeout" from="KillTimer" to="." method="_on_KillTimer_timeout"]
