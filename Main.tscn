@@ -1,0 +1,54 @@
+[gd_scene load_steps=10 format=2]
+
+[ext_resource path="res://HUD.tscn" type="PackedScene" id=1]
+[ext_resource path="res://PauseScreen.tscn" type="PackedScene" id=2]
+[ext_resource path="res://Main.gd" type="Script" id=3]
+[ext_resource path="res://Wii Music oog - Gaming Background Music (HD).ogg" type="AudioStream" id=4]
+[ext_resource path="res://~rats - Hatsilva Miku- Ripping DIVA - 14 i love anime.ogg" type="AudioStream" id=5]
+[ext_resource path="res://max whale.ogg" type="AudioStream" id=6]
+[ext_resource path="res://SPINSPINSPIN.ogg" type="AudioStream" id=7]
+[ext_resource path="res://springSound.wav" type="AudioStream" id=8]
+[ext_resource path="res://purchase.wav" type="AudioStream" id=9]
+
+[node name="Main" type="Node"]
+script = ExtResource( 3 )
+
+[node name="HUD" parent="." instance=ExtResource( 1 )]
+visible = false
+
+[node name="PauseScreen" parent="." instance=ExtResource( 2 )]
+
+[node name="Music" type="AudioStreamPlayer" parent="."]
+stream = ExtResource( 4 )
+
+[node name="Music2" type="AudioStreamPlayer" parent="."]
+stream = ExtResource( 5 )
+
+[node name="Whaleloop" type="AudioStreamPlayer" parent="."]
+stream = ExtResource( 6 )
+
+[node name="Spin" type="AudioStreamPlayer" parent="."]
+stream = ExtResource( 7 )
+volume_db = 20.0
+mix_target = 1
+
+[node name="BounceSound" type="AudioStreamPlayer" parent="."]
+stream = ExtResource( 8 )
+
+[node name="Purchase" type="AudioStreamPlayer" parent="."]
+stream = ExtResource( 9 )
+
+[connection signal="loaded" from="." to="HUD" method="_on_Main_loaded"]
+[connection signal="saving" from="." to="HUD" method="_on_Main_saving"]
+[connection signal="bounce" from="HUD" to="." method="_on_HUD_bounce"]
+[connection signal="loading" from="HUD" to="." method="_on_HUD_loading"]
+[connection signal="paused" from="HUD" to="." method="_on_HUD_paused"]
+[connection signal="purchase" from="HUD" to="." method="_on_HUD_purchase"]
+[connection signal="saving" from="HUD" to="." method="_on_HUD_saving"]
+[connection signal="loading" from="PauseScreen" to="HUD" method="_on_PauseScreen_loading"]
+[connection signal="musicChange" from="PauseScreen" to="." method="_on_PauseScreen_musicChange"]
+[connection signal="resume" from="PauseScreen" to="." method="_on_PauseScreen_resume"]
+[connection signal="save" from="PauseScreen" to="." method="_on_PauseScreen_save"]
+[connection signal="spin" from="PauseScreen" to="." method="_on_PauseScreen_spin"]
+[connection signal="spin" from="PauseScreen" to="HUD" method="_on_PauseScreen_spin"]
+[connection signal="volume" from="PauseScreen" to="." method="_on_PauseScreen_volume"]

@@ -1,0 +1,15 @@
+[remap]
+
+importer="ogg_vorbis"
+type="AudioStreamOGGVorbis"
+path="res://.import/Wii Music oog - Gaming Background Music (HD).ogg-df2c37b4b2f5e5bda56ea57a35996e2d.oggstr"
+
+[deps]
+
+source_file="res://Wii Music oog - Gaming Background Music (HD).ogg"
+dest_files=[ "res://.import/Wii Music oog - Gaming Background Music (HD).ogg-df2c37b4b2f5e5bda56ea57a35996e2d.oggstr" ]
+
+[params]
+
+loop=true
+loop_offset=0
