@@ -1,4 +1,4 @@
-[gd_scene load_steps=16 format=2]
+[gd_scene load_steps=17 format=2]
 
 [ext_resource path="res://HUD.gd" type="Script" id=1]
 [ext_resource path="res://Knife.tscn" type="PackedScene" id=2]
@@ -11,6 +11,7 @@
 [ext_resource path="res://earthboundeffect.wav" type="AudioStream" id=9]
 [ext_resource path="res://earthbound.webm" type="VideoStream" id=10]
 [ext_resource path="res://Star.tscn" type="PackedScene" id=11]
+[ext_resource path="res://PKStarStorm.tscn" type="PackedScene" id=12]
 
 [sub_resource type="Curve2D" id=1]
 _data = {
@@ -32,7 +33,7 @@ frame_1/delay_sec = 0.0
 
 [sub_resource type="Curve2D" id=4]
 _data = {
-"points": PoolVector2Array( 0, 0, 0, 0, 256, 40, 0, 0, 0, 0, 208, 64, 0, 0, 0, 0, 152, 64, 0, 0, 0, 0, 88, 64, 0, 0, 0, 0, 48, 56, 0, 0, 0, 0, 24, 40, 0, 0, 0, 0, 256, 40 )
+"points": PoolVector2Array( 0, 0, 0, 0, 24, 48, 0, 0, 0, 0, 104, 64, 0, 0, 0, 0, 192, 64, 0, 0, 0, 0, 256, 48 )
 }
 
 [node name="HUD" type="CanvasLayer"]
@@ -164,15 +165,17 @@ margin_right = 1029.0
 margin_bottom = 632.0
 stream = ExtResource( 10 )
 
-[node name="Star" parent="." instance=ExtResource( 11 )]
-position = Vector2( 336, 56 )
-
 [node name="StarPath" type="Path2D" parent="."]
 curve = SubResource( 4 )
 
 [node name="StarPathLocation" type="PathFollow2D" parent="StarPath"]
-position = Vector2( 256, 40 )
-rotation = 2.67795
+position = Vector2( 24, 48 )
+rotation = 0.197394
+
+[node name="PKStarStorm" parent="." instance=ExtResource( 12 )]
+visible = false
+position = Vector2( 512, 304 )
+scale = Vector2( 4.05859, 3.64286 )
 
 [connection signal="visibility_changed" from="." to="." method="_on_HUD_visibility_changed"]
 [connection signal="pressed" from="Purchase" to="." method="_on_Purchase_pressed"]

@@ -39,13 +39,13 @@ func save(knives,blood):
 	file_data = {"knives":knives,"blood":blood}
 	
 	var file = File.new()
-	file.open("G:/Godot Downloads/Idle Game 1/data.json", File.WRITE)
+	file.open("res://data.json", File.WRITE)
 	file.store_line(to_json(file_data))
 	file.close()
 	
 func loading():
 	var file = File.new()
-	file.open("G:/Godot Downloads/Idle Game 1/data.json",File.READ)
+	file.open("res://data.json",File.READ)
 	var data = parse_json(file.get_as_text())
 	file_data = data
 	var loadknives = file_data.knives

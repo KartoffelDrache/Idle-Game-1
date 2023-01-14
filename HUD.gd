@@ -102,24 +102,30 @@ func _on_Spring_bounce():
 func _on_KillButton_pressed():
 	get_tree().call_group("entities", "queue_free")
 	sprinkle()
-	#$KillSound.play()
-	$KillEffect.show()
-	$KillEffect.play()
+	sprinkle()
+	sprinkle()
+	sprinkle()
+	$KillSound.play()
+	$PKStarStorm.show()
+	$PKStarStorm.play()
 	play = false
 	$KillTimer.start()
 
 func _on_KillTimer_timeout():
 	play = true
-	$KillEffect.hide()
+	$PKStarStorm.hide()
+	$PKStarStorm.stop()
 
 func sprinkle():
 	var star = star_scene.instance()
 	var star_spawn_location = get_node("StarPath/StarPathLocation")
-	for i in 4:
-		star_spawn_location.offset = randi()
-		star.position = star_spawn_location.position
-		add_child(star)
-		i += 1
+	star_spawn_location.offset = randi()
+	var direction = star_spawn_location.rotation +PI/2
+	star.position = star_spawn_location.position
+	var velocity = Vector2(rand_range(200.0,450.0), 0.0)
+	star.linear_velocity = velocity.rotated(direction)
+	add_child(star)
+	
 	
 """
 signal start_game
