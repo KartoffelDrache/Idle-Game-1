@@ -11,12 +11,19 @@ var arrow2 = load("res://SMILEYSNICKER2.png")
 var arrow3 = load("res://SMILEYSNICKER3.png")
 var arrow4 = load("res://SMILEYSNICKER4.png")
 var pointer = load("res://SMILEYSNICKER5.png")
+var count = 0
+var count2 = 17
+var count3 = 31
+var yes = false
+var tint = 0.1
+
 
 func _ready():
 	$Music.play()
 	$MiceChange.start()
 	Input.set_custom_mouse_cursor(pointer, Input.CURSOR_POINTING_HAND)
-
+	$Background.modulate = Color(.5,0,0)
+	$Tint.modulate = Color(1,1,1,.001) 
 
 func _on_HUD_paused():
 	$HUD.hide()
@@ -69,6 +76,7 @@ func _on_PauseScreen_musicChange():
 		$Music.play()
 
 func _on_PauseScreen_spin():
+	yes = true
 	$Music.stop()
 	$Music2.stop()
 	$Whaleloop.stop()
@@ -96,7 +104,29 @@ func _on_MiceChange_timeout():
 		Input.set_custom_mouse_cursor(arrow4)
 		cursor_val = 1
 
-func _process(delta):
+func _process(_delta):
 	if Input.is_action_pressed("click"):
 		Input.set_default_cursor_shape(Input.CURSOR_POINTING_HAND)
 		Input.set_custom_mouse_cursor(pointer, Input.CURSOR_POINTING_HAND)
+	if yes:
+		count  = randf()
+		count2 = randf()
+		count3 = randf()
+		$Background.modulate = Color(count,count2,count3)
+		$Tint.modulate = Color(1,1,1,0.001) 
+
+func _on_HUD_coop_switch():
+	$CoopZone.show()
+	$HUD.hide()
+	$Background.hide()
+	$Tint.hide()
+
+func _on_PauseScreen_tint():
+	$Tint.modulate = Color(0,0,0,tint) 
+	tint += 0.05
+
+func _on_CoopZone_return_HUD():
+	$HUD.show()
+	$Background.show()
+	$Tint.show()
+	$CoopZone.hide()

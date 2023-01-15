@@ -5,14 +5,19 @@ signal saving
 signal loading
 signal bounce
 signal purchase
+signal kill
+signal coop_switch
+signal coop_built
 var knives = 0.0
 var blood = 0.0
 var play = true
 var spin = false
+var coop_built = false
 var count = 0.0
 var count2 = 0.0
 var count3 = 0.0
 var spring_switch = true
+var moused = false
 export(PackedScene) var knive_scene
 export(PackedScene) var dude_scene
 export(PackedScene) var star_scene
@@ -22,8 +27,9 @@ func _on_Purchase_pressed():
 	knives += 1.0
 	spawn_Knife()
 	emit_signal("purchase")
+	
 
-func bleed(knives):
+func bleed():
 	blood += knives*0.1	
 
 func spawn_Knife():
@@ -37,7 +43,7 @@ func spawn_Knife():
 func _process(_delta):
 	if(play):
 		$KnivesCount.text = str(knives)
-		bleed(knives)
+		bleed()
 		$BloodCount.text = str(blood)
 		spring_move()
 		if spin:
@@ -45,7 +51,6 @@ func _process(_delta):
 			count2 = randf()
 			count3 = randf()
 			$Background.modulate = Color(count,count2,count3) 
-
 
 func _on_Pause_pressed():
 	emit_signal("paused")
@@ -100,16 +105,23 @@ func _on_Spring_bounce():
 		emit_signal("bounce")
 
 func _on_KillButton_pressed():
-	get_tree().call_group("entities", "queue_free")
-	sprinkle()
-	sprinkle()
-	sprinkle()
-	sprinkle()
-	$KillSound.play()
-	$PKStarStorm.show()
-	$PKStarStorm.play()
-	play = false
-	$KillTimer.start()
+	if blood > 5000:
+		blood -= 5000
+		$BloodCount.text = str(blood)
+		get_tree().call_group("entities", "queue_free")
+		sprinkle()
+		sprinkle()
+		sprinkle()
+		sprinkle()
+		$KillSound.play()
+		$PKStarStorm.show()
+		$PKStarStorm.frame = 0
+		$PKStarStorm.play()
+		play = false
+		$KillTimer.start()
+		emit_signal("kill")
+	else:
+		$NoBlood.play()
 
 func _on_KillTimer_timeout():
 	play = true
@@ -126,42 +138,29 @@ func sprinkle():
 	star.linear_velocity = velocity.rotated(direction)
 	add_child(star)
 	
-	
-"""
-signal start_game
+func _on_PauseScreen_adv_features():
+	$Coop.show()
+	$BuildCoop.show()
+	$CoopBuildCost.show()
 
-func show_message(text):
-	$Message.text = text
-	$Message.show()
-	$MessageTimer.start()
+func _on_BuildCoop_pressed():
+	if blood > 10000:
+		blood -= 10000
+		$BuildingCoop.show()
+		$BuildCoop.hide()
+		$Coop.animation = "building"
+		$BuildTimer.start()
+		$BuildingNoises.play()
+	else:
+		$NoBlood.play()
 
-func show_game_over():
-	show_message("Game Over")
-	yield($MessageTimer, "timeout")
-	
-	$Message.text = "Dodge the\nCreeps!"
-	$Message.show()
-	
-	yield(get_tree().create_timer(1), "timeout")
-	$StartButton.show()	
+func _on_BuildTimer_timeout():
+	$BuildingCoop.hide()
+	$CoopBuildCost.hide()
+	$Coop.animation = "built"
+	coop_built = true
+	emit_signal("coop_built")
 
-func update_score(score):
-	$ScoreLabel.text = str(score)
-
-func _on_MessageTimer_timeout():
-	$Message.hide()
-
-func _on_StartButton_pressed():
-	$StartButton.hide()
-	emit_signal("start_game")
-
-# Declare member variables here. Examples:
-# var a = 2
-# var b = "text"
-
-# Called when the node enters the scene tree for the first time.
-func _ready():
-	pass # Replace with function body.
-
-"""
-
+func _on_Coop_coop_switch():
+	if coop_built:
+		emit_signal("coop_switch")
