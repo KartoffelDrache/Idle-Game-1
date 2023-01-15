@@ -1,5 +1,6 @@
 extends Node
 
+#hi max! hi max! hi max!
 #func _ready():
 #func _process(delta):
 var file_data
@@ -46,13 +47,13 @@ func save(knives,blood):
 	file_data = {"knives":knives,"blood":blood}
 	
 	var file = File.new()
-	file.open("res://data.json", File.WRITE)
+	file.open("./data.json", File.WRITE)
 	file.store_line(to_json(file_data))
 	file.close()
 	
 func loading():
 	var file = File.new()
-	file.open("res://data.json",File.READ)
+	file.open("./data.json",File.READ)
 	var data = parse_json(file.get_as_text())
 	file_data = data
 	var loadknives = file_data.knives
