@@ -4,7 +4,7 @@
 [ext_resource path="res://Silver-Kitchen-Knife-Transparent-Background.png" type="Texture" id=2]
 [ext_resource path="res://CatWizard.tscn" type="PackedScene" id=3]
 [ext_resource path="res://TheGameTitle2.png" type="Texture" id=4]
-[ext_resource path="res://knife.png" type="Texture" id=5]
+[ext_resource path="res://Knifey.png" type="Texture" id=5]
 
 [node name="PauseScreen" type="CanvasLayer"]
 script = ExtResource( 1 )
@@ -94,6 +94,7 @@ margin_bottom = 20.0
 text = ":)"
 
 [node name="RealKnifePic" type="TextureRect" parent="."]
+visible = false
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
@@ -106,19 +107,16 @@ rect_scale = Vector2( 0.2, 0.2 )
 texture = ExtResource( 2 )
 
 [node name="KnifePic" type="TextureRect" parent="."]
-visible = false
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-margin_left = -67.0
-margin_top = -84.0
-margin_right = -59.0
-margin_bottom = -46.0
-rect_rotation = -109.3
-rect_scale = Vector2( 4, 4 )
+margin_left = -64.0
+margin_top = -107.0
+margin_right = 56.0
+margin_bottom = -82.0
+rect_rotation = -13.5
 texture = ExtResource( 5 )
-flip_v = true
 
 [node name="MusicVolume" type="Label" parent="."]
 anchor_left = 0.5

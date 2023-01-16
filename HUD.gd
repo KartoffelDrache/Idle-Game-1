@@ -19,6 +19,7 @@ var count2 = 0.0
 var count3 = 0.0
 var spring_switch = true
 var playdudes = true
+var boing_ready = false
 export(PackedScene) var knive_scene
 export(PackedScene) var dude_scene
 export(PackedScene) var star_scene
@@ -67,7 +68,7 @@ func _on_Main_saving():
 func _on_PauseScreen_loading():
 	emit_signal("loading")
 
-func _on_Main_loaded(loadknives,loadblood,loadcoop):
+func _on_Main_loaded(loadknives,loadblood,loadcoop,volume_start):
 	knives = loadknives
 	blood = loadblood
 	coop_built = loadcoop
@@ -90,6 +91,7 @@ func _on_SpawnTimer_timeout():
 		dude_spawn_location.offset = randi()
 		dude.position = dude_spawn_location.position
 		add_child(dude)
+	boing_ready = true
 
 func _on_PauseScreen_spin():
 	spin = true
@@ -107,7 +109,7 @@ func _on_SpringSwitch_timeout():
 		spring_switch = true
 
 func _on_Spring_bounce():
-	if play:
+	if play and boing_ready:
 		emit_signal("bounce")
 
 func _on_KillButton_pressed():

@@ -1,10 +1,10 @@
 [gd_scene load_steps=2 format=2]
 
-[ext_resource path="res://knife.png" type="Texture" id=1]
+[ext_resource path="res://Knifey.png" type="Texture" id=1]
 
 [node name="Knife" type="Node2D" groups=["entities"]]
 scale = Vector2( 0.2, 0.2 )
 
 [node name="Sprite" type="Sprite" parent="."]
-scale = Vector2( 10, 10 )
+scale = Vector2( 3, 3 )
 texture = ExtResource( 1 )
