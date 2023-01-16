@@ -8,6 +8,7 @@ signal purchase
 signal kill
 signal coop_switch
 signal coop_built
+signal load_coop_built
 var knives = 0.0
 var blood = 0.0
 var play = true
@@ -17,7 +18,7 @@ var count = 0.0
 var count2 = 0.0
 var count3 = 0.0
 var spring_switch = true
-var moused = false
+var playdudes = true
 export(PackedScene) var knive_scene
 export(PackedScene) var dude_scene
 export(PackedScene) var star_scene
@@ -41,6 +42,10 @@ func spawn_Knife():
 	add_child(knive_scene_new)
 
 func _process(_delta):
+	if visible:
+		play = true
+	else:
+		play = false
 	if(play):
 		$KnivesCount.text = str(knives)
 		bleed()
@@ -55,30 +60,31 @@ func _process(_delta):
 func _on_Pause_pressed():
 	emit_signal("paused")
 
-func _on_HUD_visibility_changed(): 
-	if(play == true):
-		play = false
-	else:
-		play = true
 
 func _on_Main_saving():
-	emit_signal("saving",knives,blood)
-
+	emit_signal("saving",knives,blood,coop_built)
+	
 func _on_PauseScreen_loading():
 	emit_signal("loading")
 
-func _on_Main_loaded(loadknives,loadblood):
+func _on_Main_loaded(loadknives,loadblood,loadcoop):
 	knives = loadknives
 	blood = loadblood
+	coop_built = loadcoop
+	if coop_built:
+		$Coop.show()
+		$Coop.animation = "built"
+		emit_signal("load_coop_built")
 
 func _ready():
 	randomize()
 	$SpawnTimer.start()
 	$Background.modulate = Color(.4,0,0)
 	$SpringSwitch.start()
+	
 
 func _on_SpawnTimer_timeout():
-	if play:
+	if playdudes:
 		var dude = dude_scene.instance()
 		var dude_spawn_location = get_node("DudePath/DudePathLocation")
 		dude_spawn_location.offset = randi()
@@ -117,14 +123,14 @@ func _on_KillButton_pressed():
 		$PKStarStorm.show()
 		$PKStarStorm.frame = 0
 		$PKStarStorm.play()
-		play = false
+		playdudes = false
 		$KillTimer.start()
 		emit_signal("kill")
 	else:
 		$NoBlood.play()
 
 func _on_KillTimer_timeout():
-	play = true
+	playdudes = true
 	$PKStarStorm.hide()
 	$PKStarStorm.stop()
 

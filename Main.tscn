@@ -55,12 +55,19 @@ stream = ExtResource( 9 )
 [node name="MiceChange" type="Timer" parent="."]
 wait_time = 0.08
 
+[node name="SmileDisableTimer" type="Timer" parent="."]
+wait_time = 0.01
+one_shot = true
+
 [connection signal="loaded" from="." to="HUD" method="_on_Main_loaded"]
+[connection signal="loaded" from="." to="PauseScreen" method="_on_Main_loaded"]
 [connection signal="saving" from="." to="HUD" method="_on_Main_saving"]
+[connection signal="saving" from="." to="PauseScreen" method="_on_Main_saving"]
 [connection signal="bounce" from="HUD" to="." method="_on_HUD_bounce"]
 [connection signal="coop_built" from="HUD" to="PauseScreen" method="_on_HUD_coop_built"]
 [connection signal="coop_switch" from="HUD" to="." method="_on_HUD_coop_switch"]
 [connection signal="kill" from="HUD" to="PauseScreen" method="_on_HUD_kill"]
+[connection signal="load_coop_built" from="HUD" to="PauseScreen" method="_on_HUD_load_coop_built"]
 [connection signal="loading" from="HUD" to="." method="_on_HUD_loading"]
 [connection signal="paused" from="HUD" to="." method="_on_HUD_paused"]
 [connection signal="purchase" from="HUD" to="." method="_on_HUD_purchase"]
@@ -76,3 +83,4 @@ wait_time = 0.08
 [connection signal="volume" from="PauseScreen" to="." method="_on_PauseScreen_volume"]
 [connection signal="return_HUD" from="CoopZone" to="." method="_on_CoopZone_return_HUD"]
 [connection signal="timeout" from="MiceChange" to="." method="_on_MiceChange_timeout"]
+[connection signal="timeout" from="SmileDisableTimer" to="." method="_on_SmileDisableTimer_timeout"]

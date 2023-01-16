@@ -17,6 +17,10 @@ var count2 = 17
 var count3 = 31
 var yes = false
 var tint = 0.1
+var cooped = 0
+var loadcoop = false
+var volume_start
+var disable_smile = false
 
 
 func _ready():
@@ -25,6 +29,7 @@ func _ready():
 	Input.set_custom_mouse_cursor(pointer, Input.CURSOR_POINTING_HAND)
 	$Background.modulate = Color(.5,0,0)
 	$Tint.modulate = Color(1,1,1,.001) 
+
 
 func _on_HUD_paused():
 	$HUD.hide()
@@ -37,14 +42,18 @@ func _on_PauseScreen_resume():
 func _on_PauseScreen_save():
 	emit_signal("saving")
 
-func _on_HUD_saving(knives,blood):
-	save(knives,blood)
+func _on_HUD_saving(knives,blood,coop_built):
+	save(knives,blood,coop_built)
 
 func _on_HUD_loading():
 	loading()
 
-func save(knives,blood):
-	file_data = {"knives":knives,"blood":blood}
+func save(knives,blood,coop_built):
+	if coop_built:
+		cooped = 1
+	else:
+		cooped = 0
+	file_data = {"knives":knives,"blood":blood,"coop_built":cooped,"volume":volume_start}
 	
 	var file = File.new()
 	file.open("./data.json", File.WRITE)
@@ -58,12 +67,22 @@ func loading():
 	file_data = data
 	var loadknives = file_data.knives
 	var loadblood = file_data.blood
-	emit_signal("loaded",loadknives,loadblood)
+	var rawcoop = file_data.coop_built
+	var volume_start = file_data.volume
+	if rawcoop == 1:
+		loadcoop = true
+	else:
+		loadcoop = false
+	$Music.set_volume_db(volume_start)
+	$Music2.set_volume_db(volume_start)
+	$Whaleloop.set_volume_db(volume_start)
+	emit_signal("loaded",loadknives,loadblood,loadcoop,volume_start)
 
 func _on_PauseScreen_volume(volume):
 	$Music.set_volume_db(volume)
 	$Music2.set_volume_db(volume)
 	$Whaleloop.set_volume_db(volume)
+	volume_start = volume
 	
 func _on_PauseScreen_musicChange():
 	if $Music.playing:
@@ -91,24 +110,27 @@ func _on_HUD_purchase():
 	$Purchase.play()
 
 func _on_MiceChange_timeout():
-	Input.set_default_cursor_shape(Input.CURSOR_ARROW)
-	if cursor_val == 1:
-		Input.set_custom_mouse_cursor(arrow1)
-		cursor_val = 2
-	elif cursor_val == 2:
-		Input.set_custom_mouse_cursor(arrow2)
-		cursor_val = 3
-	elif cursor_val == 3:
-		Input.set_custom_mouse_cursor(arrow3)
-		cursor_val = 4
-	elif cursor_val == 4:
-		Input.set_custom_mouse_cursor(arrow4)
-		cursor_val = 1
+	if !disable_smile:
+		Input.set_default_cursor_shape(Input.CURSOR_ARROW)
+		if cursor_val == 1:
+			Input.set_custom_mouse_cursor(arrow1)
+			cursor_val = 2
+		elif cursor_val == 2:
+			Input.set_custom_mouse_cursor(arrow2)
+			cursor_val = 3
+		elif cursor_val == 3:
+			Input.set_custom_mouse_cursor(arrow3)
+			cursor_val = 4
+		elif cursor_val == 4:
+			Input.set_custom_mouse_cursor(arrow4)
+			cursor_val = 1
 
 func _process(_delta):
 	if Input.is_action_pressed("click"):
 		Input.set_default_cursor_shape(Input.CURSOR_POINTING_HAND)
 		Input.set_custom_mouse_cursor(pointer, Input.CURSOR_POINTING_HAND)
+		disable_smile = true
+		$SmileDisableTimer.start()
 	if yes:
 		count  = randf()
 		count2 = randf()
@@ -131,3 +153,7 @@ func _on_CoopZone_return_HUD():
 	$Background.show()
 	$Tint.show()
 	$CoopZone.hide()
+
+
+func _on_SmileDisableTimer_timeout():
+	disable_smile = false
