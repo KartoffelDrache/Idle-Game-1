@@ -1,10 +1,13 @@
-[gd_scene load_steps=6 format=2]
+[gd_scene load_steps=9 format=2]
 
 [ext_resource path="res://PauseScreen.gd" type="Script" id=1]
 [ext_resource path="res://Silver-Kitchen-Knife-Transparent-Background.png" type="Texture" id=2]
 [ext_resource path="res://CatWizard.tscn" type="PackedScene" id=3]
 [ext_resource path="res://TheGameTitle2.png" type="Texture" id=4]
 [ext_resource path="res://Knifey.png" type="Texture" id=5]
+[ext_resource path="res://CreditsButton1.png" type="Texture" id=6]
+[ext_resource path="res://CreditsButton3.png" type="Texture" id=7]
+[ext_resource path="res://CreditsButton2.png" type="Texture" id=8]
 
 [node name="PauseScreen" type="CanvasLayer"]
 script = ExtResource( 1 )
@@ -34,6 +37,7 @@ margin_left = -32.0
 margin_top = -10.0
 margin_right = 32.0
 margin_bottom = 10.0
+mouse_filter = 1
 text = "Resume"
 
 [node name="Paused" type="Label" parent="."]
@@ -53,6 +57,7 @@ margin_left = 445.0
 margin_top = 220.0
 margin_right = 573.0
 margin_bottom = 260.0
+mouse_filter = 2
 texture = ExtResource( 4 )
 
 [node name="Save" type="Button" parent="."]
@@ -116,6 +121,7 @@ margin_top = -107.0
 margin_right = 56.0
 margin_bottom = -82.0
 rect_rotation = -13.5
+mouse_filter = 2
 texture = ExtResource( 5 )
 
 [node name="MusicVolume" type="Label" parent="."]
@@ -176,6 +182,19 @@ text = "Advanced Features"
 visible = false
 position = Vector2( 994, 581 )
 
+[node name="Credits" type="TextureButton" parent="."]
+margin_left = 446.0
+margin_top = 12.0
+margin_right = 566.0
+margin_bottom = 52.0
+texture_normal = ExtResource( 8 )
+texture_pressed = ExtResource( 7 )
+texture_hover = ExtResource( 6 )
+
+[node name="QuitTimer" type="Timer" parent="."]
+wait_time = 0.1
+one_shot = true
+
 [connection signal="pressed" from="Resume" to="." method="_on_Resume_pressed"]
 [connection signal="pressed" from="Save" to="." method="_on_Save_pressed"]
 [connection signal="pressed" from="Load" to="." method="_on_Load_pressed"]
@@ -185,3 +204,4 @@ position = Vector2( 994, 581 )
 [connection signal="pressed" from="MusicChange" to="." method="_on_MusicChange_pressed"]
 [connection signal="pressed" from="DynamicLights" to="." method="_on_DynamicLights_pressed"]
 [connection signal="pressed" from="AdvancedFeatures" to="." method="_on_AdvancedFeatures_pressed"]
+[connection signal="timeout" from="QuitTimer" to="." method="_on_QuitTimer_timeout"]

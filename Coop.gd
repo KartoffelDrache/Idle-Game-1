@@ -3,7 +3,7 @@ extends AnimatedSprite
 signal coop_switch
 var mouse_over = false
 
-func _input(event):
+func _input(_event):
 	if mouse_over and Input.is_action_pressed("click"):
 		emit_signal("coop_switch")
 

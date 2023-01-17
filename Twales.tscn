@@ -1,0 +1,29 @@
+[gd_scene load_steps=6 format=2]
+
+[ext_resource path="res://Twales/TwalesEdit1.png" type="Texture" id=1]
+[ext_resource path="res://Twales/TwalesEdit2.png" type="Texture" id=2]
+[ext_resource path="res://Twales.gd" type="Script" id=3]
+
+[sub_resource type="SpriteFrames" id=1]
+animations = [ {
+"frames": [ ExtResource( 1 ), ExtResource( 2 ) ],
+"loop": true,
+"name": "speak",
+"speed": 5.0
+} ]
+
+[sub_resource type="RectangleShape2D" id=2]
+extents = Vector2( 50, 50 )
+
+[node name="Twales" type="Area2D"]
+script = ExtResource( 3 )
+
+[node name="AnimatedSprite" type="AnimatedSprite" parent="."]
+frames = SubResource( 1 )
+animation = "speak"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource( 2 )
+
+[connection signal="mouse_entered" from="." to="." method="_on_Twales_mouse_entered"]
+[connection signal="mouse_exited" from="." to="." method="_on_Twales_mouse_exited"]

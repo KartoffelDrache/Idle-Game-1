@@ -1,4 +1,4 @@
-[gd_scene load_steps=14 format=2]
+[gd_scene load_steps=21 format=2]
 
 [ext_resource path="res://coop_inside.png" type="Texture" id=1]
 [ext_resource path="res://ArcadeBackground2.png" type="Texture" id=2]
@@ -12,6 +12,13 @@
 [ext_resource path="res://CoopZone.gd" type="Script" id=10]
 [ext_resource path="res://SMILEYSNICKER5.png" type="Texture" id=11]
 [ext_resource path="res://SMILEYSNICKER1.png" type="Texture" id=12]
+[ext_resource path="res://Twales.tscn" type="PackedScene" id=13]
+[ext_resource path="res://Twales/Twales2.wav" type="AudioStream" id=14]
+[ext_resource path="res://Twales/Twales4.wav" type="AudioStream" id=15]
+[ext_resource path="res://Twales/Twales5.wav" type="AudioStream" id=16]
+[ext_resource path="res://Twales/Twales1.wav" type="AudioStream" id=17]
+[ext_resource path="res://Twales/Twales3.wav" type="AudioStream" id=18]
+[ext_resource path="res://TextBackgroundMedium.png" type="Texture" id=19]
 
 [sub_resource type="CanvasItemMaterial" id=1]
 
@@ -65,9 +72,9 @@ scale = Vector2( 0.628, 0.628 )
 texture = ExtResource( 2 )
 
 [node name="CoopBackground" type="TextureRect" parent="."]
-margin_left = -24.0
-margin_right = 1043.0
+margin_right = 1024.0
 margin_bottom = 600.0
+mouse_filter = 2
 texture = ExtResource( 1 )
 expand = true
 
@@ -79,4 +86,57 @@ margin_bottom = 48.0
 texture_normal = ExtResource( 12 )
 texture_pressed = ExtResource( 11 )
 
+[node name="Twales" parent="." instance=ExtResource( 13 )]
+position = Vector2( 58, 58 )
+
+[node name="TwalesTimer" type="Timer" parent="."]
+one_shot = true
+
+[node name="TwalesTalk" type="Node" parent="."]
+
+[node name="TwalesTalk1" type="AudioStreamPlayer" parent="TwalesTalk"]
+stream = ExtResource( 17 )
+
+[node name="TwalesTalk2" type="AudioStreamPlayer" parent="TwalesTalk"]
+stream = ExtResource( 14 )
+
+[node name="TwalesTalk3" type="AudioStreamPlayer" parent="TwalesTalk"]
+stream = ExtResource( 18 )
+
+[node name="TwalesTalk4" type="AudioStreamPlayer" parent="TwalesTalk"]
+stream = ExtResource( 15 )
+
+[node name="TwalesTalk5" type="AudioStreamPlayer" parent="TwalesTalk"]
+stream = ExtResource( 16 )
+
+[node name="TalkTimer" type="Timer" parent="TwalesTalk"]
+wait_time = 0.05
+one_shot = true
+
+[node name="TextDisappears" type="Timer" parent="TwalesTalk"]
+wait_time = 5.0
+one_shot = true
+
+[node name="TextBackground" type="TextureRect" parent="TwalesTalk"]
+margin_left = 114.0
+margin_top = 8.0
+margin_right = 314.0
+margin_bottom = 108.0
+texture = ExtResource( 19 )
+
+[node name="TwalesText" type="Label" parent="TwalesTalk"]
+margin_left = 119.0
+margin_top = 13.0
+margin_right = 309.0
+margin_bottom = 103.0
+text = "Twales the Fox:
+Ominio nimo ni monmo no mimino.
+
+"
+autowrap = true
+
 [connection signal="pressed" from="TextureButton" to="." method="_on_TextureButton_pressed"]
+[connection signal="twales" from="Twales" to="." method="_on_Twales_twales"]
+[connection signal="timeout" from="TwalesTimer" to="." method="_on_TwalesTimer_timeout"]
+[connection signal="timeout" from="TwalesTalk/TalkTimer" to="." method="_on_TalkTimer_timeout"]
+[connection signal="timeout" from="TwalesTalk/TextDisappears" to="." method="_on_TextDisappears_timeout"]

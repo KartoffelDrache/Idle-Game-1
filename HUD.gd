@@ -38,7 +38,7 @@ func spawn_Knife():
 	var knive_scene_new = knive_scene.instance()
 	var knife_spawn_location = get_node("KnifePath/KnifePathPoint")
 	knife_spawn_location.offset = randi()
-	knive_scene_new.position = knife_spawn_location.position
+	knive_scene_new.position = knife_spawn_location.global_position
 	knive_scene_new.rotation += randf()*PI*2
 	add_child(knive_scene_new)
 
@@ -68,7 +68,7 @@ func _on_Main_saving():
 func _on_PauseScreen_loading():
 	emit_signal("loading")
 
-func _on_Main_loaded(loadknives,loadblood,loadcoop,volume_start):
+func _on_Main_loaded(loadknives,loadblood,loadcoop,_volume_start):
 	knives = loadknives
 	blood = loadblood
 	coop_built = loadcoop
@@ -89,7 +89,7 @@ func _on_SpawnTimer_timeout():
 		var dude = dude_scene.instance()
 		var dude_spawn_location = get_node("DudePath/DudePathLocation")
 		dude_spawn_location.offset = randi()
-		dude.position = dude_spawn_location.position
+		dude.position = dude_spawn_location.global_position
 		add_child(dude)
 	boing_ready = true
 
@@ -141,7 +141,7 @@ func sprinkle():
 	var star_spawn_location = get_node("StarPath/StarPathLocation")
 	star_spawn_location.offset = randi()
 	var direction = star_spawn_location.rotation +PI/2
-	star.position = star_spawn_location.position
+	star.position = star_spawn_location.global_position
 	var velocity = Vector2(rand_range(200.0,450.0), 0.0)
 	star.linear_velocity = velocity.rotated(direction)
 	add_child(star)

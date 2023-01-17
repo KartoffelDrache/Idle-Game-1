@@ -1,4 +1,4 @@
-[gd_scene load_steps=11 format=2]
+[gd_scene load_steps=12 format=2]
 
 [ext_resource path="res://HUD.tscn" type="PackedScene" id=1]
 [ext_resource path="res://PauseScreen.tscn" type="PackedScene" id=2]
@@ -10,17 +10,18 @@
 [ext_resource path="res://springSound.wav" type="AudioStream" id=8]
 [ext_resource path="res://purchase.wav" type="AudioStream" id=9]
 [ext_resource path="res://CoopZone.tscn" type="PackedScene" id=10]
+[ext_resource path="res://MeatShack.tscn" type="PackedScene" id=11]
 
 [node name="Main" type="Node"]
 script = ExtResource( 3 )
 
 [node name="Background" type="ColorRect" parent="."]
-margin_right = 1031.0
+margin_right = 1024.0
 margin_bottom = 600.0
 mouse_filter = 2
 
 [node name="Tint" type="ColorRect" parent="."]
-margin_right = 1030.0
+margin_right = 1024.0
 margin_bottom = 600.0
 mouse_filter = 2
 
@@ -30,6 +31,9 @@ visible = false
 [node name="PauseScreen" parent="." instance=ExtResource( 2 )]
 
 [node name="CoopZone" parent="." instance=ExtResource( 10 )]
+visible = false
+
+[node name="MeatShack" parent="." instance=ExtResource( 11 )]
 visible = false
 
 [node name="Music" type="AudioStreamPlayer" parent="."]
@@ -56,8 +60,11 @@ stream = ExtResource( 9 )
 wait_time = 0.08
 
 [node name="SmileDisableTimer" type="Timer" parent="."]
-wait_time = 0.01
+wait_time = 0.02
 one_shot = true
+
+[node name="MouseClickChangeTimer" type="Timer" parent="."]
+wait_time = 0.08
 
 [connection signal="loaded" from="." to="HUD" method="_on_Main_loaded"]
 [connection signal="loaded" from="." to="PauseScreen" method="_on_Main_loaded"]
@@ -75,6 +82,7 @@ one_shot = true
 [connection signal="adv_features" from="PauseScreen" to="HUD" method="_on_PauseScreen_adv_features"]
 [connection signal="loading" from="PauseScreen" to="HUD" method="_on_PauseScreen_loading"]
 [connection signal="musicChange" from="PauseScreen" to="." method="_on_PauseScreen_musicChange"]
+[connection signal="quiting" from="PauseScreen" to="." method="_on_PauseScreen_quiting"]
 [connection signal="resume" from="PauseScreen" to="." method="_on_PauseScreen_resume"]
 [connection signal="save" from="PauseScreen" to="." method="_on_PauseScreen_save"]
 [connection signal="spin" from="PauseScreen" to="." method="_on_PauseScreen_spin"]
@@ -84,3 +92,4 @@ one_shot = true
 [connection signal="return_HUD" from="CoopZone" to="." method="_on_CoopZone_return_HUD"]
 [connection signal="timeout" from="MiceChange" to="." method="_on_MiceChange_timeout"]
 [connection signal="timeout" from="SmileDisableTimer" to="." method="_on_SmileDisableTimer_timeout"]
+[connection signal="timeout" from="MouseClickChangeTimer" to="." method="_on_MouseClickChangeTimer_timeout"]

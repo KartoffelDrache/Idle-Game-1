@@ -2,14 +2,15 @@ extends CanvasLayer
 
 signal resume
 signal save
-signal saving
 signal loading
 signal volume
 signal musicChange
 signal spin
 signal adv_features
 signal tint
+signal quiting
 var coop_built = false
+
 
 func _on_Resume_pressed():
 	emit_signal("resume")
@@ -22,7 +23,8 @@ func _on_Load_pressed():
 	emit_signal("resume")
 
 func _on_Quit_pressed():
-	get_tree().quit()
+	emit_signal("quiting")
+	$QuitTimer.start()
 
 
 func _on_Button_pressed():
@@ -60,6 +62,10 @@ func _on_HUD_load_coop_built():
 	coop_built = true
 
 
-func _on_Main_loaded(loadknives,loadblood,loadcoop,volume_start):
+func _on_Main_loaded(_lodknives,_loadblood,_loadcoop,volume_start):
 	$VolumeSlider.value = volume_start
 	
+
+
+func _on_QuitTimer_timeout():
+	get_tree().quit()

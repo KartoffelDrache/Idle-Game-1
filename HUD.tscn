@@ -129,7 +129,7 @@ margin_bottom = 59.0
 text = "Pause"
 
 [node name="KnifePath" type="Path2D" parent="."]
-position = Vector2( 48, 0 )
+position = Vector2( 31, 0 )
 curve = SubResource( 1 )
 
 [node name="KnifePathPoint" type="PathFollow2D" parent="KnifePath"]
@@ -139,16 +139,17 @@ rotation = 0.354704
 [node name="SpawnTimer" type="Timer" parent="."]
 wait_time = 0.5
 
-[node name="DudePath" type="Path2D" parent="."]
-curve = SubResource( 2 )
-
-[node name="DudePathLocation" type="PathFollow2D" parent="DudePath"]
-
 [node name="Spring" parent="." instance=ExtResource( 4 )]
 position = Vector2( -547, 568 )
 
 [node name="SpringSwitch" type="Timer" parent="."]
 wait_time = 10.0
+
+[node name="DudePath" type="Path2D" parent="."]
+position = Vector2( 0, -81 )
+curve = SubResource( 2 )
+
+[node name="DudePathLocation" type="PathFollow2D" parent="DudePath"]
 
 [node name="Dude" parent="." instance=ExtResource( 3 )]
 position = Vector2( -416, 432 )
@@ -211,7 +212,6 @@ texture = ExtResource( 16 )
 visible = false
 position = Vector2( 875, 401 )
 frames = SubResource( 5 )
-frame = 1
 playing = true
 
 [node name="BuildTimer" type="Timer" parent="."]
@@ -229,7 +229,6 @@ scale = Vector2( 4.05859, 3.64286 )
 [node name="BuildingNoises" type="AudioStreamPlayer" parent="."]
 stream = ExtResource( 19 )
 
-[connection signal="visibility_changed" from="." to="." method="_on_HUD_visibility_changed"]
 [connection signal="pressed" from="Purchase" to="." method="_on_Purchase_pressed"]
 [connection signal="pressed" from="Pause" to="." method="_on_Pause_pressed"]
 [connection signal="timeout" from="SpawnTimer" to="." method="_on_SpawnTimer_timeout"]

@@ -12,6 +12,10 @@ var arrow2 = load("res://SMILEYSNICKER2.png")
 var arrow3 = load("res://SMILEYSNICKER3.png")
 var arrow4 = load("res://SMILEYSNICKER4.png")
 var pointer = load("res://SMILEYSNICKER5.png")
+var click1 = load("res://SMILEYWINKEDIT1.png")
+var click2 = load("res://SMILEYWINKEDIT2.png")
+var click3 = load("res://SMILEYWINKEDIT3.png")
+var click4 = load("res://SMILEYWINKEDIT4.png")
 var count = 0
 var count2 = 17
 var count3 = 31
@@ -21,14 +25,18 @@ var cooped = 0
 var loadcoop = false
 var volume_start
 var disable_smile = false
+var quiting = false
+var stupid_dumb_timer_check = true
 
 
 func _ready():
 	$Music.play()
 	$MiceChange.start()
-	Input.set_custom_mouse_cursor(pointer, Input.CURSOR_POINTING_HAND)
+	$MouseClickChangeTimer.start()
 	$Background.modulate = Color(.5,0,0)
 	$Tint.modulate = Color(1,1,1,.001) 
+	Input.set_custom_mouse_cursor(pointer, Input.CURSOR_MOVE)
+
 
 
 func _on_HUD_paused():
@@ -68,7 +76,7 @@ func loading():
 	var loadknives = file_data.knives
 	var loadblood = file_data.blood
 	var rawcoop = file_data.coop_built
-	var volume_start = file_data.volume
+	volume_start = file_data.volume
 	if rawcoop == 1:
 		loadcoop = true
 	else:
@@ -126,11 +134,17 @@ func _on_MiceChange_timeout():
 			cursor_val = 1
 
 func _process(_delta):
+	if quiting:
+		Input.set_custom_mouse_cursor(pointer, Input.CURSOR_POINTING_HAND)
+		Input.set_default_cursor_shape(Input.CURSOR_POINTING_HAND)
+		disable_smile = true
 	if Input.is_action_pressed("click"):
 		Input.set_default_cursor_shape(Input.CURSOR_POINTING_HAND)
-		Input.set_custom_mouse_cursor(pointer, Input.CURSOR_POINTING_HAND)
-		disable_smile = true
-		$SmileDisableTimer.start()
+		Input.set_custom_mouse_cursor(click1, Input.CURSOR_POINTING_HAND)
+		clicking()
+		stupid_dumb_timer_check = true
+	else:
+		stupid_dumb_timer_check = false
 	if yes:
 		count  = randf()
 		count2 = randf()
@@ -154,6 +168,32 @@ func _on_CoopZone_return_HUD():
 	$Tint.show()
 	$CoopZone.hide()
 
-
 func _on_SmileDisableTimer_timeout():
 	disable_smile = false
+
+func _on_PauseScreen_quiting():
+	quiting = true
+
+func clicking():
+	disable_smile = true
+	$SmileDisableTimer.start()
+
+func _on_MouseClickChangeTimer_timeout():
+	"""
+		if stupid_dumb_timer_check:
+			Input.set_default_cursor_shape(Input.CURSOR_POINTING_HAND)
+			if cursor_val == 1:
+				Input.set_custom_mouse_cursor(click1, Input.CURSOR_POINTING_HAND)
+				cursor_val = 2
+			elif cursor_val == 2:
+				Input.set_custom_mouse_cursor(click2, Input.CURSOR_POINTING_HAND)
+				cursor_val = 3
+			elif cursor_val == 3:
+				Input.set_custom_mouse_cursor(click3, Input.CURSOR_POINTING_HAND)
+				cursor_val = 4
+			elif cursor_val == 4:
+				Input.set_custom_mouse_cursor(click4, Input.CURSOR_POINTING_HAND)
+				cursor_val = 1
+"""
+
+	
