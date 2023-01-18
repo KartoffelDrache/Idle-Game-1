@@ -78,7 +78,9 @@ mouse_filter = 2
 texture = ExtResource( 1 )
 expand = true
 
-[node name="TextureButton" type="TextureButton" parent="."]
+[node name="UI" type="CanvasLayer" parent="."]
+
+[node name="ReturnButton" type="TextureButton" parent="UI"]
 margin_left = 976.0
 margin_top = 16.0
 margin_right = 1008.0
@@ -86,45 +88,47 @@ margin_bottom = 48.0
 texture_normal = ExtResource( 12 )
 texture_pressed = ExtResource( 11 )
 
-[node name="Twales" parent="." instance=ExtResource( 13 )]
+[node name="Twales" parent="UI" instance=ExtResource( 13 )]
 position = Vector2( 58, 58 )
 
-[node name="TwalesTimer" type="Timer" parent="."]
+[node name="TwalesTimer" type="Timer" parent="UI"]
 one_shot = true
 
-[node name="TwalesTalk" type="Node" parent="."]
+[node name="TwalesTalk" type="Node" parent="UI"]
 
-[node name="TwalesTalk1" type="AudioStreamPlayer" parent="TwalesTalk"]
+[node name="TwalesTalk1" type="AudioStreamPlayer" parent="UI/TwalesTalk"]
 stream = ExtResource( 17 )
 
-[node name="TwalesTalk2" type="AudioStreamPlayer" parent="TwalesTalk"]
+[node name="TwalesTalk2" type="AudioStreamPlayer" parent="UI/TwalesTalk"]
 stream = ExtResource( 14 )
 
-[node name="TwalesTalk3" type="AudioStreamPlayer" parent="TwalesTalk"]
+[node name="TwalesTalk3" type="AudioStreamPlayer" parent="UI/TwalesTalk"]
 stream = ExtResource( 18 )
 
-[node name="TwalesTalk4" type="AudioStreamPlayer" parent="TwalesTalk"]
+[node name="TwalesTalk4" type="AudioStreamPlayer" parent="UI/TwalesTalk"]
 stream = ExtResource( 15 )
 
-[node name="TwalesTalk5" type="AudioStreamPlayer" parent="TwalesTalk"]
+[node name="TwalesTalk5" type="AudioStreamPlayer" parent="UI/TwalesTalk"]
 stream = ExtResource( 16 )
 
-[node name="TalkTimer" type="Timer" parent="TwalesTalk"]
+[node name="TalkTimer" type="Timer" parent="UI/TwalesTalk"]
 wait_time = 0.05
 one_shot = true
 
-[node name="TextDisappears" type="Timer" parent="TwalesTalk"]
+[node name="TextDisappears" type="Timer" parent="UI/TwalesTalk"]
 wait_time = 5.0
 one_shot = true
 
-[node name="TextBackground" type="TextureRect" parent="TwalesTalk"]
+[node name="TextBackground" type="TextureRect" parent="UI/TwalesTalk"]
+visible = false
 margin_left = 114.0
 margin_top = 8.0
 margin_right = 314.0
 margin_bottom = 108.0
 texture = ExtResource( 19 )
 
-[node name="TwalesText" type="Label" parent="TwalesTalk"]
+[node name="TwalesText" type="Label" parent="UI/TwalesTalk"]
+visible = false
 margin_left = 119.0
 margin_top = 13.0
 margin_right = 309.0
@@ -135,8 +139,8 @@ Ominio nimo ni monmo no mimino.
 "
 autowrap = true
 
-[connection signal="pressed" from="TextureButton" to="." method="_on_TextureButton_pressed"]
-[connection signal="twales" from="Twales" to="." method="_on_Twales_twales"]
-[connection signal="timeout" from="TwalesTimer" to="." method="_on_TwalesTimer_timeout"]
-[connection signal="timeout" from="TwalesTalk/TalkTimer" to="." method="_on_TalkTimer_timeout"]
-[connection signal="timeout" from="TwalesTalk/TextDisappears" to="." method="_on_TextDisappears_timeout"]
+[connection signal="pressed" from="UI/ReturnButton" to="." method="_on_ReturnButton_pressed"]
+[connection signal="twales" from="UI/Twales" to="." method="_on_Twales_twales"]
+[connection signal="timeout" from="UI/TwalesTimer" to="." method="_on_TwalesTimer_timeout"]
+[connection signal="timeout" from="UI/TwalesTalk/TalkTimer" to="." method="_on_TalkTimer_timeout"]
+[connection signal="timeout" from="UI/TwalesTalk/TextDisappears" to="." method="_on_TextDisappears_timeout"]

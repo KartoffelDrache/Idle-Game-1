@@ -36,8 +36,7 @@ func _ready():
 	$Background.modulate = Color(.5,0,0)
 	$Tint.modulate = Color(1,1,1,.001) 
 	Input.set_custom_mouse_cursor(pointer, Input.CURSOR_MOVE)
-
-
+	$CoopZone/UI.hide()
 
 func _on_HUD_paused():
 	$HUD.hide()
@@ -157,6 +156,7 @@ func _on_HUD_coop_switch():
 	$HUD.hide()
 	$Background.hide()
 	$Tint.hide()
+	$CoopZone/UI.show()
 
 func _on_PauseScreen_tint():
 	$Tint.modulate = Color(0,0,0,tint) 
@@ -167,6 +167,7 @@ func _on_CoopZone_return_HUD():
 	$Background.show()
 	$Tint.show()
 	$CoopZone.hide()
+	$CoopZone/UI.hide()
 
 func _on_SmileDisableTimer_timeout():
 	disable_smile = false
