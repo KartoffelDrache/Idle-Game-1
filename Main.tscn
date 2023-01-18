@@ -1,4 +1,4 @@
-[gd_scene load_steps=12 format=2]
+[gd_scene load_steps=13 format=2]
 
 [ext_resource path="res://HUD.tscn" type="PackedScene" id=1]
 [ext_resource path="res://PauseScreen.tscn" type="PackedScene" id=2]
@@ -11,6 +11,7 @@
 [ext_resource path="res://purchase.wav" type="AudioStream" id=9]
 [ext_resource path="res://CoopZone.tscn" type="PackedScene" id=10]
 [ext_resource path="res://MeatShack.tscn" type="PackedScene" id=11]
+[ext_resource path="res://Credits.tscn" type="PackedScene" id=12]
 
 [node name="Main" type="Node"]
 script = ExtResource( 3 )
@@ -66,10 +67,14 @@ one_shot = true
 [node name="MouseClickChangeTimer" type="Timer" parent="."]
 wait_time = 0.08
 
+[node name="Credits" parent="." instance=ExtResource( 12 )]
+visible = false
+
 [connection signal="loaded" from="." to="HUD" method="_on_Main_loaded"]
 [connection signal="loaded" from="." to="PauseScreen" method="_on_Main_loaded"]
 [connection signal="saving" from="." to="HUD" method="_on_Main_saving"]
 [connection signal="saving" from="." to="PauseScreen" method="_on_Main_saving"]
+[connection signal="blood_count" from="HUD" to="PauseScreen" method="_on_HUD_blood_count"]
 [connection signal="bounce" from="HUD" to="." method="_on_HUD_bounce"]
 [connection signal="coop_built" from="HUD" to="PauseScreen" method="_on_HUD_coop_built"]
 [connection signal="coop_switch" from="HUD" to="." method="_on_HUD_coop_switch"]
@@ -80,6 +85,10 @@ wait_time = 0.08
 [connection signal="purchase" from="HUD" to="." method="_on_HUD_purchase"]
 [connection signal="saving" from="HUD" to="." method="_on_HUD_saving"]
 [connection signal="adv_features" from="PauseScreen" to="HUD" method="_on_PauseScreen_adv_features"]
+[connection signal="blood_low" from="PauseScreen" to="HUD" method="_on_PauseScreen_blood_low"]
+[connection signal="credits" from="PauseScreen" to="." method="_on_PauseScreen_credits"]
+[connection signal="foxish_learned" from="PauseScreen" to="HUD" method="_on_PauseScreen_foxish_learned"]
+[connection signal="foxish_learned" from="PauseScreen" to="CoopZone" method="_on_PauseScreen_foxish_learned"]
 [connection signal="loading" from="PauseScreen" to="HUD" method="_on_PauseScreen_loading"]
 [connection signal="musicChange" from="PauseScreen" to="." method="_on_PauseScreen_musicChange"]
 [connection signal="quiting" from="PauseScreen" to="." method="_on_PauseScreen_quiting"]
@@ -89,6 +98,7 @@ wait_time = 0.08
 [connection signal="spin" from="PauseScreen" to="HUD" method="_on_PauseScreen_spin"]
 [connection signal="tint" from="PauseScreen" to="." method="_on_PauseScreen_tint"]
 [connection signal="volume" from="PauseScreen" to="." method="_on_PauseScreen_volume"]
+[connection signal="TwalesTalked" from="CoopZone" to="PauseScreen" method="_on_CoopZone_TwalesTalked"]
 [connection signal="return_HUD" from="CoopZone" to="." method="_on_CoopZone_return_HUD"]
 [connection signal="timeout" from="MiceChange" to="." method="_on_MiceChange_timeout"]
 [connection signal="timeout" from="SmileDisableTimer" to="." method="_on_SmileDisableTimer_timeout"]

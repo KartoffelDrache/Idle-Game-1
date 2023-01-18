@@ -9,6 +9,7 @@ signal kill
 signal coop_switch
 signal coop_built
 signal load_coop_built
+signal blood_count
 var knives = 0.0
 var blood = 0.0
 var play = true
@@ -33,6 +34,7 @@ func _on_Purchase_pressed():
 
 func bleed():
 	blood += knives*0.1	
+	emit_signal("blood_count", blood)
 
 func spawn_Knife():
 	var knive_scene_new = knive_scene.instance()
@@ -172,3 +174,11 @@ func _on_BuildTimer_timeout():
 func _on_Coop_coop_switch():
 	if coop_built:
 		emit_signal("coop_switch")
+
+
+func _on_PauseScreen_blood_low():
+	$NoBlood.play()
+
+
+func _on_PauseScreen_foxish_learned():
+	blood -= 15000

@@ -1,30 +1,46 @@
-[gd_scene load_steps=6 format=2]
+[gd_scene load_steps=8 format=2]
 
 [ext_resource path="res://CatWizardIdle1.png" type="Texture" id=1]
 [ext_resource path="res://CatWizardIdle2.png" type="Texture" id=2]
 [ext_resource path="res://CatWizard.gd" type="Script" id=3]
+[ext_resource path="res://CatWizardShop1.png" type="Texture" id=4]
+[ext_resource path="res://CatWizardShop2.png" type="Texture" id=5]
 
 [sub_resource type="SpriteFrames" id=1]
 animations = [ {
 "frames": [ ExtResource( 1 ), ExtResource( 2 ) ],
 "loop": true,
-"name": "default",
+"name": "Idle",
 "speed": 1.0
+}, {
+"frames": [ ExtResource( 4 ) ],
+"loop": true,
+"name": "ShopOpen",
+"speed": 5.0
+}, {
+"frames": [ ExtResource( 5 ) ],
+"loop": true,
+"name": "Sold",
+"speed": 5.0
 } ]
 
 [sub_resource type="RectangleShape2D" id=2]
-extents = Vector2( 19.75, 12 )
+extents = Vector2( 35.375, 56 )
 
 [node name="CatWizard" type="Area2D"]
 script = ExtResource( 3 )
 
 [node name="AnimatedSprite" type="AnimatedSprite" parent="."]
 frames = SubResource( 1 )
+animation = "Idle"
 playing = true
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-position = Vector2( -0.75, 0 )
 shape = SubResource( 2 )
+
+[node name="BackToIdleTimer" type="Timer" parent="."]
+wait_time = 5.0
 
 [connection signal="mouse_entered" from="." to="." method="_on_CatWizard_mouse_entered"]
 [connection signal="mouse_exited" from="." to="." method="_on_CatWizard_mouse_exited"]
+[connection signal="timeout" from="BackToIdleTimer" to="." method="_on_BackToIdleTimer_timeout"]

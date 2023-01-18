@@ -180,7 +180,7 @@ text = "Advanced Features"
 
 [node name="CatWizard" parent="." instance=ExtResource( 3 )]
 visible = false
-position = Vector2( 994, 581 )
+position = Vector2( 989, 544 )
 
 [node name="Credits" type="TextureButton" parent="."]
 margin_left = 446.0
@@ -195,6 +195,8 @@ texture_hover = ExtResource( 6 )
 wait_time = 0.1
 one_shot = true
 
+[connection signal="blood_count" from="." to="CatWizard" method="_on_PauseScreen_blood_count"]
+[connection signal="open_shop" from="." to="CatWizard" method="_on_PauseScreen_open_shop"]
 [connection signal="pressed" from="Resume" to="." method="_on_Resume_pressed"]
 [connection signal="pressed" from="Save" to="." method="_on_Save_pressed"]
 [connection signal="pressed" from="Load" to="." method="_on_Load_pressed"]
@@ -204,4 +206,7 @@ one_shot = true
 [connection signal="pressed" from="MusicChange" to="." method="_on_MusicChange_pressed"]
 [connection signal="pressed" from="DynamicLights" to="." method="_on_DynamicLights_pressed"]
 [connection signal="pressed" from="AdvancedFeatures" to="." method="_on_AdvancedFeatures_pressed"]
+[connection signal="blood_low" from="CatWizard" to="." method="_on_CatWizard_blood_low"]
+[connection signal="foxish_learned" from="CatWizard" to="." method="_on_CatWizard_foxish_learned"]
+[connection signal="pressed" from="Credits" to="." method="_on_Credits_pressed"]
 [connection signal="timeout" from="QuitTimer" to="." method="_on_QuitTimer_timeout"]

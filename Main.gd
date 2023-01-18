@@ -198,3 +198,6 @@ func _on_MouseClickChangeTimer_timeout():
 """
 
 	
+
+func _on_PauseScreen_credits():
+	$Credits/Credits.play()

@@ -1,0 +1,18 @@
+[gd_scene load_steps=3 format=2]
+
+[ext_resource path="res://Credits.wav" type="AudioStream" id=2]
+[ext_resource path="res://Credits.gd" type="Script" id=3]
+
+[node name="Credits" type="CanvasLayer"]
+script = ExtResource( 3 )
+
+[node name="BlackBackground" type="ColorRect" parent="."]
+margin_right = 1028.0
+margin_bottom = 600.0
+color = Color( 0, 0, 0, 1 )
+
+[node name="Credits" type="AudioStreamPlayer" parent="."]
+stream = ExtResource( 2 )
+volume_db = 10.0
+
+[node name="Reset" type="Timer" parent="."]

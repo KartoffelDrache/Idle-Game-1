@@ -9,6 +9,11 @@ signal spin
 signal adv_features
 signal tint
 signal quiting
+signal open_shop
+signal blood_count
+signal blood_low
+signal foxish_learned
+signal credits
 var coop_built = false
 
 
@@ -51,21 +56,31 @@ func _on_AdvancedFeatures_pressed():
 func _on_HUD_coop_built():
 	$CatWizard.show()
 
-
 func _on_Main_saving():
 	pass # Replace with function body.
-
 
 func _on_HUD_load_coop_built():
 	$AdvancedFeatures.show()
 	$CatWizard.show()
 	coop_built = true
-
-
+	
 func _on_Main_loaded(_lodknives,_loadblood,_loadcoop,volume_start):
 	$VolumeSlider.value = volume_start
 	
-
-
 func _on_QuitTimer_timeout():
 	get_tree().quit()
+
+func _on_CoopZone_TwalesTalked():
+	emit_signal("open_shop")
+
+func _on_HUD_blood_count(blood):
+	emit_signal("blood_count",blood)
+
+func _on_CatWizard_blood_low():
+	emit_signal("blood_low")
+
+func _on_CatWizard_foxish_learned():
+	emit_signal("foxish_learned")
+
+func _on_Credits_pressed():
+	emit_signal("credits")
